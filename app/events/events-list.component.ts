@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { EventService } from './shared/events.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { ToastrService } from '../common/toastr.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'events-list',
     template: `
     <div>
         <h1>Upcoming Angular Events</h1>
@@ -19,13 +19,13 @@ import { ToastrService } from '../common/toastr.service';
 })
 
 export class EventsListComponent implements OnInit{
-    events: any[];
+    events: any;
 
-    constructor(private _eventService: EventService, private _toastr: ToastrService) {
+    constructor(private _eventService: EventService, private _toastr: ToastrService, private _route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.events = this._eventService.getEvents();        
+        this.events = this._route.snapshot.data['events'];
     }
 
     handleThumbnailClick(eventName) {
