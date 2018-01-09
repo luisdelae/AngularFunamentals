@@ -1,41 +1,42 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
+    CreateEventComponent,
+    CreateSessionComponent,
+    DurationPipe,
+    EventDetailsComponent,
+    EventListResolver,
+    EventResolver,
+    EventService,
     EventsListComponent,
     EventThumbnailComponent,
-    EventService,
-    EventDetailsComponent,
-    CreateEventComponent,
-    EventResolver,
-    EventListResolver,
-    CreateSessionComponent,
+    LocationValidator,
     SessionListComponent,
-    DurationPipe,
     UpvoteComponent,
     VoterService,
-    LocationValidator
-} from './events/index'
+} from './events/index';
 
-import { 
-    TOASTR_TOKEN,
+import {
+    CollapsibleWellComponent,
     IToastr,
     JQ_TOKEN,
-    CollapsibleWellComponent,
+    ModalTriggerDirective,
     SimpleModalCompnent,
-    ModalTriggerDirective
- } from './common/index'
+    TOASTR_TOKEN,
+ } from './common/index';
 
+import { Error404Component } from './errors/404.components';
 import { EventsAppComponent} from './events-app.component';
 import { NavBarComponent } from './nav/navbar.component';
 import { appRoutes } from './routes';
-import { Error404Component } from './errors/404.components';
 import { AuthService } from './user/auth.service';
 
 declare let toastr: IToastr;
+// tslint:disable-next-line:ban-types
 declare let jQuery: Object;
 
 @NgModule({
@@ -44,7 +45,7 @@ declare let jQuery: Object;
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forRoot(appRoutes),
-        HttpModule
+        HttpModule,
     ],
     declarations: [
         EventsAppComponent,
@@ -61,31 +62,31 @@ declare let jQuery: Object;
         SimpleModalCompnent,
         ModalTriggerDirective,
         UpvoteComponent,
-        LocationValidator
+        LocationValidator,
     ],
     providers: [
-        EventService, 
+        EventService,
         {
             provide: TOASTR_TOKEN,
-            useValue: toastr
-         }, 
+            useValue: toastr,
+         },
          {
             provide: JQ_TOKEN,
-            useValue: jQuery
-         }, 
+            useValue: jQuery,
+         },
          EventResolver,
         {
             provide: 'canDeactivateCreateEvent',
-            useValue: checkDirtyState
+            useValue: checkDirtyState,
         },
         EventListResolver,
         AuthService,
-        VoterService
+        VoterService,
     ],
-    bootstrap: [EventsAppComponent]
+    bootstrap: [EventsAppComponent],
 })
 
-export class AppModule{}
+export class AppModule {}
 
 function checkDirtyState(component: CreateEventComponent) {
     if (component.isDirty) {

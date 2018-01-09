@@ -14,17 +14,17 @@ import { Component,EventEmitter, Input, Output } from '@angular/core';
                 </div>
             </div>
         </div>
-    `
+    `,
 })
 export class UpvoteComponent {
-    @Input() count: number;
+    @Input() public count: number;
     @Input() set voted(val) {
         this.iconColor = val ? 'red' : 'white';
-    };
-    @Output() vote = new EventEmitter();
-    iconColor: string;
+    }
+    @Output() public vote = new EventEmitter();
+    public iconColor: string;
 
-    onClick() {
+    public onClick() {
         this.vote.emit({});
     }
 }

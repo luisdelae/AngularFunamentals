@@ -1,13 +1,13 @@
-import { TestBed, async, ComponentFixture } '@angular/core/testing';
-import { DebugElement, Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { SessionListComponent } from './session-list.component';
-// import { UpvoteComponent } from './upvote.component';
-import { DurationPipe } from '../shared/duration.pipe'
+import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 // import { CollapsibleWellComponent } from '../../common/collapsible-well.component';
 import { AuthService } from '../../user/auth.service';
-import { VoterService } from './voter.service';
+// import { UpvoteComponent } from './upvote.component';
+import { DurationPipe } from '../shared/duration.pipe';
 import { ISession } from '../shared/event.model';
-import { By } from '@angular/platform-browser';
+import { SessionListComponent } from './session-list.component';
+import { VoterService } from './voter.service';
 
 describe('SessionListComponent', () => {
     let fixture: ComponentFixture<SessionListComponent>, 
@@ -16,12 +16,12 @@ describe('SessionListComponent', () => {
         debugEl: DebugElement;
 
     beforeEach(async(() => {
-        let mockAuthService = {
+        const mockAuthService = {
             isAuthenticated: () => true,
-            currentUser: { userName: 'Joe' }
+            currentUser: { userName: 'Joe' },
         };
-        let mockVoterService = {
-            userHasVoted: () => true
+        const mockVoterService = {
+            userHasVoted: () => true,
         };
 
         TestBed.configureTestingModule({
@@ -37,21 +37,26 @@ describe('SessionListComponent', () => {
                 { provide: VoterService, useValue: mockVoterService},
             ],
             schemas: [
-                NO_ERRORS_SCHEMA
-            ]
+                NO_ERRORS_SCHEMA,
+            ],
         }).compileComponents();
-    }))
+    }));
 
-    beforeEach(( => {
+    beforeEach(() => {
         fixture = TestBed.createComponent(SessionListComponent);
         component = fixture.componentInstance;
         debugEl = fixture.debugElement;
         element = fixture.nativeElement;
-    }))
+    });
 
     describe('initial display', () => {
         it('should have the correct session title', () => {
-            component.sessions = [{ id: 3, name: 'Session 1', presenter: 'Joe', duration: 1, level: 'beginner', abstract: 'abstract', voters: ['john', 'bob'] }];
+            component.sessions = [{ id: 3, name: 'Session 1', 
+                                    presenter: 'Joe', 
+                                    duration: 1, 
+                                    level: 'beginner', 
+                                    abstract: 'abstract', 
+                                    voters: ['john', 'bob'] }];
             component.filterBy = 'all';
             component.sortBy = 'name';
             component.eventId = 4;
@@ -61,6 +66,6 @@ describe('SessionListComponent', () => {
 
             // expect(element.querySelector('[well-title]').textContent).toContain('Session 1');
             expect(debugEl.query(By.css('[well-title]')).nativeElement.textContent).toContain('Session 1');
-        })
-    })
-})
+        });
+    });
+});

@@ -11,24 +11,24 @@ import { EventService } from './shared/index';
         .error ::-moz-placeholder { color: #999; }
         .error :-moz-placeholder { color: #999; }
         .error :ms-input-placeholder { color: #999; }
-    `]      
+    `],      
 })
 
 export class CreateEventComponent {
-    isDirty: boolean = true;
+    public isDirty: boolean = true;
 
     constructor(private _router: Router, private _eventService: EventService) {
 
     }
 
-    saveEvent(formValues) {
-        this._eventService.saveEvent(formValues).subscribe(event => {
+    public saveEvent(formValues) {
+        this._eventService.saveEvent(formValues).subscribe((event) => {
             this.isDirty = false;             
             this._router.navigate(['/events']);
         });                
     }
 
-    cancel() {
+    public cancel() {
         this._router.navigate(['/events']);
     }
 }

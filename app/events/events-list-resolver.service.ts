@@ -8,7 +8,7 @@ export class EventListResolver implements Resolve<any> {
 
     }
 
-    resolve() {
+    public resolve() {
         return this._eventService.getEvents();
     }
 }

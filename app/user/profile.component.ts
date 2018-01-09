@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { TOASTR_TOKEN, IToastr } from '../common/toastr.service';
+import { IToastr, TOASTR_TOKEN } from '../common/toastr.service';
+import { AuthService } from './auth.service';
 
 @Component({
   templateUrl: 'app/user/profile.component.html',
@@ -13,41 +13,43 @@ import { TOASTR_TOKEN, IToastr } from '../common/toastr.service';
     .error ::-moz-placeholder { color: #999; }
     .error :-moz-placeholder { color: #999; }
     .error :ms-input-placeholder { color: #999; }
-  `]
+  `],
 })
 export class ProfileComponent implements OnInit {
   
-  profileForm: FormGroup
+  public profileForm: FormGroup;
   private firstName: FormControl;
   private lastName: FormControl;
 
-  constructor(private _authService: AuthService, private _router: Router, @Inject(TOASTR_TOKEN) private _toastr: IToastr) {
+  constructor(private _authService: AuthService, 
+              private _router: Router, 
+              @Inject(TOASTR_TOKEN) private _toastr: IToastr) {}
 
-  }
-
-  ngOnInit() {
-    this.firstName = new FormControl(this._authService.currentUser.firstName, [Validators.required, Validators.pattern('[a-zA-Z].*')]);
-    this.lastName = new FormControl(this._authService.currentUser.lastName, [Validators.required, Validators.pattern('[a-zA-Z].*')]);
+  public ngOnInit() {
+    this.firstName = new FormControl(this._authService.currentUser.firstName, 
+      [Validators.required, Validators.pattern('[a-zA-Z].*')]);
+    this.lastName = new FormControl(this._authService.currentUser.lastName, 
+      [Validators.required, Validators.pattern('[a-zA-Z].*')]);
 
     this.profileForm = new FormGroup({
       firstName: this.firstName,
-      lastName: this.lastName
-    })
+      lastName: this.lastName,
+    });
   }
 
-  validateFirstName() {
-    return this.firstName.valid || this.firstName.untouched
+  public validateFirstName() {
+    return this.firstName.valid || this.firstName.untouched;
   }
 
-  validateLastName() {
-    return this.lastName.valid || this.lastName.untouched
+  public validateLastName() {
+    return this.lastName.valid || this.lastName.untouched;
   }
 
-  cancel() {
+  public cancel() {
     this._router.navigate(['events']);
   }
 
-  saveProfile(formValues) {
+  public saveProfile(formValues) {
     if (this.profileForm.valid) {
       this._authService.updateCurrentUser(formValues.firstName, formValues.lastName).subscribe(() => {
         this._toastr.success('Profile Saved');        
@@ -55,9 +57,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  logout() {
+  public logout() {
     this._authService.logout().subscribe(() => {
-      this._router.navigate(['/user/login'])
+      this._router.navigate(['/user/login']);
     });
   }
 }
