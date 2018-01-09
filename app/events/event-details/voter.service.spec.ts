@@ -31,4 +31,15 @@ describe('VoterService', () => {
             expect(mockHttp.delete).toHaveBeenCalledWith('/api/events/3/sessions/6/voters/joe')
         })
     })
+
+    describe('addVoter', () => {
+        it('should call http.post with the right URL', () => {
+            var session = { id: 6, voters: ["john"] };
+            mockHttp.post.and.returnValue(Observable.of(false));
+
+            voterService.addVoter(3, <ISession>session, "joe");
+            
+            expect(mockHttp.post).toHaveBeenCalledWith('/api/events/3/sessions/6/voters/joe', "{}", jasmine.any(Object));
+        })
+    })
 })
