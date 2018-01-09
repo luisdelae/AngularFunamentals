@@ -24,8 +24,8 @@ export class EventDetailsComponent {
     }
 
     ngOnInit() {
-        this._route.params.forEach((params: Params) => {
-            this.event = this._eventService.getEvent(+params['id']);
+        this._route.data.forEach((data) => {
+            this.event = data['event'];
             this.addMode = false;
         });
     }
@@ -38,7 +38,7 @@ export class EventDetailsComponent {
         const nextId = Math.max.apply(null, this.event.sessions.map(s => s.id));
         session.id = nextId + 1;
         this.event.sessions.push(session);
-        this._eventService.updateEvent(this.event);
+        this._eventService.saveEvent(this.event).subscribe();
         this.addMode = false;
     }
 
